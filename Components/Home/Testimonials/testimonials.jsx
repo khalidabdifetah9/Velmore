@@ -1,12 +1,21 @@
 "use client";
 
-import { useRef } from "react";
-import Image from "next/image";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import FadeUp from "../About/fade-up";
 import WordReveal from "../feature/word-reveal";
-import ReviewCard from "./review-card";
-import { reviews, testimonialBg } from "@/lib/reviews";
+import TestimonialSlide from "./testimonial-slide";
+import { enter, LEN } from "./timing";
+import { testimonials } from "@/lib/testimonials";
+
+const pad = (n) => String(n).padStart(2, "0");
 
 const headingWords = [
   { text: "Worn" },
@@ -17,84 +26,88 @@ const headingWords = [
 
 export default function Testimonials() {
   const ref = useRef(null);
+  const total = testimonials.length;
+  const [active, setActive] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   });
 
-  // Smooth the scroll so the drops feel fluid
+  // Smoothing layer for the overlap
   const progress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 30,
-    mass: 0.4,
+    stiffness: 90,
+    damping: 26,
+    mass: 0.5,
   });
 
-  const bgScale = useTransform(progress, [0, 1], [1.12, 1]);
-  const bar = useTransform(progress, [0.05, 0.85], [0, 1]);
+  const bar = useTransform(progress, [0, 0.82], [1 / total, 1]);
+
+  useMotionValueEvent(progress, "change", (p) => {
+    let idx = 0;
+    for (let k = 1; k < total; k++) {
+      if (p >= enter(k)[0] + LEN * 0.5) idx = k;
+    }
+    setActive((prev) => (prev === idx ? prev : idx));
+  });
 
   return (
-    // data-nav-tone makes the navbar switch to light text over this image
     <section
       ref={ref}
       id="testimonials"
-      data-nav-tone="light"
-      className="relative h-[480vh] bg-black"
+      className="relative border-t border-neutral-200 bg-white"
+      style={{ height: `${(total + 1) * 100}vh` }}
     >
-      {/* Pinned full-screen stage */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* Locked background image */}
-        <motion.div
-          style={{ scale: bgScale }}
-          className="absolute inset-0 will-change-transform"
-        >
-          <Image
-            src={testimonialBg}
-            alt="Velmora testimonials background"
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/40" />
-
-        {/* Left: label + heading */}
-        <div className="absolute left-6 top-[13vh] z-10 max-w-[300px] md:left-[5%] md:top-[18vh] md:max-w-[28%]">
-          <div className="mb-5 flex items-center gap-3">
-            <motion.span
-              initial={{ width: 0 }}
-              whileInView={{ width: 28 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="block h-px bg-[#a8af7e]"
-            />
+      {/* Locked stage: same side padding as About and Feature */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden px-6 pb-8 pt-24 md:px-12 md:pb-10 md:pt-28">
+        <div className="mx-auto flex h-full max-w-[1200px] flex-col">
+          {/* Header, same style as Collection */}
+          <header>
             <FadeUp>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-white">
+              <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-neutral-900">
                 Testimonial
               </p>
             </FadeUp>
+            <WordReveal
+              words={headingWords}
+              delay={0.15}
+              className="font-[family-name:var(--font-display)] text-[clamp(2.4rem,4.4vw,4.25rem)] font-normal leading-[1.02] tracking-[-0.02em] text-neutral-950"
+            />
+          </header>
+
+          {/* Only photo + quote overlap here */}
+          <div className="relative mt-8 min-h-0 flex-1 md:mt-10">
+            {testimonials.map((t, i) => (
+              <TestimonialSlide
+                key={t.name}
+                item={t}
+                index={i}
+                total={total}
+                progress={progress}
+              />
+            ))}
           </div>
 
-          <WordReveal
-            words={headingWords}
-            delay={0.15}
-            className="font-[family-name:var(--font-display)] text-[clamp(2.1rem,3.6vw,3.6rem)] font-normal leading-[1.04] tracking-[-0.02em] text-white"
-          />
-        </div>
-
-        {/* Review cards: dropped in by scroll */}
-        <div className="pointer-events-none absolute inset-0 z-20">
-          {reviews.map((r, i) => (
-            <ReviewCard key={r.name} review={r} index={i} progress={progress} />
-          ))}
-        </div>
-
-        {/* Progress line */}
-        <div className="absolute bottom-8 left-6 z-10 h-px w-28 bg-white/25 md:left-[5%]">
-          <motion.div
-            style={{ scaleX: bar }}
-            className="h-full origin-left bg-[#a8af7e]"
-          />
+          {/* Counter + progress */}
+          <div className="mt-6 flex items-center gap-4">
+            <div className="flex items-center gap-1.5 text-[11px] font-semibold tabular-nums text-neutral-950">
+              <span className="relative block h-4 w-[18px] overflow-hidden">
+                <AnimatePresence mode="popLayout" initial={false}>
+                  <motion.span
+                    key={active}
+                    initial={{ y: "100%" }}
+                    animate={{ y: "0%" }}
+                    exit={{ y: "-100%" }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute inset-0 block"
+                  >
+                    
+                  </motion.span>
+                </AnimatePresence>
+              </span>
+            </div>
+            
+          </div>
         </div>
       </div>
     </section>

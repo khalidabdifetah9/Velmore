@@ -3,6 +3,7 @@ import About from "@/Components/Home/About/about";
 import Feature from "@/Components/Home/feature/feature";
 import Products from "@/Components/Home/Products/products";
 import Testimonials from "@/Components/Home/Testimonials/testimonials";
+import Cta from "@/Components/Home/CTA/cta";
 export default function Page() {
   return (
     <main>
@@ -11,6 +12,7 @@ export default function Page() {
       <Feature />
       <Products />
       <Testimonials />
+      <Cta />
     </main>
   );
 }
