@@ -4,6 +4,7 @@ import Feature from "@/Components/Home/feature/feature";
 import Products from "@/Components/Home/Products/products";
 import Testimonials from "@/Components/Home/Testimonials/testimonials";
 import Cta from "@/Components/Home/CTA/cta";
+import Footer from "@/Components/Home/Footer/footer";
 export default function Page() {
   return (
     <main>
@@ -13,6 +14,7 @@ export default function Page() {
       <Products />
       <Testimonials />
       <Cta />
+      <Footer />
     </main>
   );
 }

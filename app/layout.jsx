@@ -1,6 +1,5 @@
 import { Inter, Bodoni_Moda,JetBrains_Mono} from "next/font/google";
 import "./globals.css";
-
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 const display = Bodoni_Moda({
