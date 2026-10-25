@@ -16,7 +16,8 @@ export default function RevealImage({
   alt,
   direction = "up",
   delay = 0,
-  parallax = 6, // % of travel, keep <= 7
+  parallax = 6, // % of drift. 0 = no parallax and no extra zoom
+  position = "center", // object-position, e.g. "50% 15%" keeps the top of the photo in view
   sizes = "40vw",
   className = "",
 }) {
@@ -24,35 +25,39 @@ export default function RevealImage({
   const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
   const cfg = CLIP[direction];
 
-  // Scroll parallax for the photo inside the frame
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], [`-${parallax}%`, `${parallax}%`]);
+  const bleed = parallax ? `-${parallax + 1}%` : "0%";
 
   return (
     <div ref={ref} className={`relative ${className}`}>
-      {/* 1. Clip-path wipe */}
       <motion.div
         initial={{ clipPath: cfg.from }}
         animate={inView ? { clipPath: "inset(0% 0% 0% 0%)" } : {}}
         transition={{ duration: 1.3, delay, ease: EASE }}
         className="relative h-full w-full overflow-hidden bg-neutral-200"
       >
-        {/* 2. Photo: starts zoomed, settles to 1, drifts with scroll */}
         <motion.div
           initial={{ scale: 1.35 }}
           animate={inView ? { scale: 1 } : {}}
           transition={{ duration: 1.8, delay, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
-          <motion.div style={{ y }} className="absolute inset-[-8%]">
-            <Image src={src} alt={alt} fill sizes={sizes} className="object-cover" />
+          <motion.div style={{ y, inset: bleed }} className="absolute">
+            <Image
+              src={src}
+              alt={alt}
+              fill
+              sizes={sizes}
+              style={{ objectPosition: position }}
+              className="object-cover"
+            />
           </motion.div>
         </motion.div>
 
-        {/* 3. Accent curtain slides off just after the wipe starts */}
         <motion.div
           initial={{ [cfg.axis]: 1 }}
           animate={inView ? { [cfg.axis]: 0 } : {}}
