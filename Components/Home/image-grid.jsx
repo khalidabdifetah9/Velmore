@@ -26,7 +26,11 @@ export default function ImageGrid({ progress, centerRef }) {
                 fill
                 priority={isCenter}
                 sizes={isCenter ? "100vw" : "34vw"}
-                className="object-cover"
+                className={
+                  isCenter
+                    ? "object-cover object-[41%_50%] md:object-center"
+                    : "object-cover"
+                }
               />
             </motion.div>
           );

@@ -31,10 +31,8 @@ export default function ProductCard({ product, index }) {
             className="object-cover transition-[filter,transform] duration-700 ease-out group-hover:scale-110 group-hover:blur-xl"
           />
 
-          {/* Legibility gradient for the tags */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-          {/* [ VIEW ] appears on hover */}
           <span className="absolute inset-0 flex items-center justify-center font-[family-name:var(--font-mono)] text-[13px] uppercase tracking-[0.18em] text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100">
             [ View 
           </span>
@@ -51,7 +49,6 @@ export default function ProductCard({ product, index }) {
           </ul>
         </div>
 
-        {/* Name + price */}
         <div className="mt-3 flex items-center justify-between text-[15px] text-neutral-950">
           <p className="flex items-center gap-2.5 font-medium">
             {product.name}

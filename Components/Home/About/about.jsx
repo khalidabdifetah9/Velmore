@@ -32,7 +32,7 @@ export default function About() {
           <div>
             <FadeUp delay={0.2}>
               <p className="max-w-[34ch] text-[13px] leading-[1.75] text-neutral-700">
-                Velmora began in a one-room studio with a single resin and a
+                Velmora began in a one room studio with a single resin and a
                 stubborn idea: a perfume should take exactly as long as its
                 ingredients need. Every batch is blended by two perfumers,
                 rested for ninety days, and numbered by hand before it leaves.
@@ -41,7 +41,7 @@ export default function About() {
 
             <FadeUp delay={0.35} className="mt-8 flex items-center gap-7">
               <Link
-                href="#craftsmanship"
+                href="/craftsmanship"
                 className="group relative overflow-hidden border border-neutral-900 px-6 py-3 text-[11px] uppercase tracking-[0.2em] text-neutral-900 transition-colors duration-500 hover:border-[#a8af7e]"
               >
                 <span className="absolute inset-0 -translate-x-full bg-[#a8af7e] transition-transform duration-500 ease-out group-hover:translate-x-0" />
@@ -49,7 +49,7 @@ export default function About() {
               </Link>
 
               <Link
-                href="#story"
+                href="/craftsmanship"
                 className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-neutral-900"
               >
                 Read the story

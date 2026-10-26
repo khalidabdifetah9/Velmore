@@ -27,7 +27,7 @@ export default function ProductCard({ product, className = "" }) {
 
       {/* View button */}
       <Link
-        href={`/collection/${product.slug}`}
+        href={`/collections/${product.slug}`}
         aria-label={`View ${product.name}`}
         className="mt-3 block bg-neutral-950 py-3 text-center text-[10px] font-medium uppercase tracking-[0.22em] text-white transition-colors duration-300 hover:bg-[#a8af7e] hover:text-neutral-950"
       >

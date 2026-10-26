@@ -7,19 +7,15 @@ import FadeUp from "../About/fade-up";
 import { Facebook, Instagram, XIcon, Linkedin, Youtube } from "./social-icons";
 
 const colOne = [
-  { label: "Collection", href: "#collection" },
-  { label: "Craftsmanship", href: "#craftsmanship" },
-  { label: "Our story", href: "#about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Collection", href: "/collections" },
+  { label: "Craftsmanship", href: "/craftsmanship" },
   { label: "Journal", href: "/journal" },
 ];
 
 const colTwo = [
   { label: "Fragrance notes", href: "#notes" },
   { label: "Testimonials", href: "#testimonials" },
-  { label: "Consultation", href: "#consultation" },
-  { label: "Stockists", href: "/stockists" },
-  { label: "Shipping & returns", href: "/shipping" },
+  { label: "Consultation", href: "/contact" },
 ];
 
 const socials = [

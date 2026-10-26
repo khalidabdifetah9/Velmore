@@ -17,13 +17,14 @@ export default function Navbar({ visible = true }) {
   const [scrolled, setScrolled] = useState(false);
   const [overDark, setOverDark] = useState(false);
 
+  // Scroll state + which kind of section is behind the navbar
   useEffect(() => {
     let raf;
     const check = () => {
       setScrolled(window.scrollY > 24);
       const els = document.elementsFromPoint(window.innerWidth / 2, 40);
       const el = els.find(
-        (e) => !e.closest("header") && e.closest("[data-nav-tone]")
+        (e) => !e.closest("header") && e.closest("[data-nav-tone]"),
       );
       const tone = el?.closest("[data-nav-tone]")?.dataset.navTone;
       setOverDark(tone === "light"); // "light" = light text = dark photo section
@@ -62,8 +63,9 @@ export default function Navbar({ visible = true }) {
     const wasOpen = open;
     setOpen(false);
     setTimeout(
-      () => document.querySelector(href)?.scrollIntoView({ behavior: "smooth" }),
-      wasOpen ? 400 : 0
+      () =>
+        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" }),
+      wasOpen ? 400 : 0,
     );
   };
 
@@ -77,11 +79,15 @@ export default function Navbar({ visible = true }) {
         transition={{ duration: 0.7, ease: EASE }}
         className={`fixed inset-x-0 top-0 z-50 ${visible ? "" : "pointer-events-none"}`}
       >
-        {/* Frosted background, fades in only over light sections */}
-       
+        <div
+          aria-hidden="true"
+          className={`absolute inset-0 -z-10 border-b border-white/10 bg-white/70 backdrop-blur-xl transition-opacity duration-500 ${
+            showBg ? "opacity-100" : "opacity-0"
+          }`}
+        />
 
         <nav
-          className={`flex items-center justify-between md:py-13 px-6 transition-[height] duration-500 md:px-18 ${
+          className={`flex items-center justify-between px-6 transition-[height] duration-500 md:px-12 ${
             scrolled ? "h-16" : "h-20"
           }`}
         >
@@ -89,7 +95,6 @@ export default function Navbar({ visible = true }) {
           <Link
             href="/"
             aria-label="Velmora home"
-            onClick={() => setOpen(false)}
             className="flex items-center"
           >
             <Image
@@ -108,13 +113,13 @@ export default function Navbar({ visible = true }) {
           <ul className="hidden items-center gap-12 md:flex">
             {links.map((link) => (
               <li key={link.href}>
-                <Link
+                <a
                   href={link.href}
-                  className="group relative  text-[16px] font-[family-name:var(--font-display)]  font-medium tracking-[0.04em] text-[#a8af7e] transition-colors duration-500 hover:text-[#a8af7e]"
+                  className="group relative uppercase text-[15px] font-medium tracking-[0.02em] text-[#a8af7e] transition-colors duration-500 hover:text-[#a8af7e]"
                 >
                   {link.label}
                   <span className="absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-0 bg-[#a8af7e] transition-transform duration-500 group-hover:scale-x-100" />
-                </Link>
+                </a>
               </li>
             ))}
           </ul>
@@ -156,14 +161,21 @@ export default function Navbar({ visible = true }) {
           >
             <ul className="border-t border-white/10">
               {links.map((link, i) => (
-                <li key={link.href} className="overflow-hidden border-b border-white/10">
+                <li
+                  key={link.href}
+                  className="overflow-hidden border-b border-white/10"
+                >
                   <motion.a
                     href={link.href}
                     onClick={(e) => go(e, link.href)}
                     initial={{ y: "110%" }}
                     animate={{ y: "0%" }}
                     exit={{ y: "110%" }}
-                    transition={{ duration: 0.9, delay: 0.25 + i * 0.1, ease: EASE }}
+                    transition={{
+                      duration: 0.9,
+                      delay: 0.25 + i * 0.1,
+                      ease: EASE,
+                    }}
                     className="flex items-baseline justify-between py-6 font-[family-name:var(--font-display)] text-[clamp(2.4rem,11vw,3.6rem)] leading-none tracking-[-0.02em] text-white"
                   >
                     {link.label}

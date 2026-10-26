@@ -16,7 +16,6 @@ const headingWords = [
   { text: "slowly" },
 ];
 
-/** Measures the viewport and works out card size, empty start space and step limit. */
 function useCarouselMetrics(ref, count) {
   const [m, setM] = useState(null);
 
@@ -37,9 +36,7 @@ function useCarouselMetrics(ref, count) {
       const stride = cardW + gap;
       const trackW = count * cardW + (count - 1) * gap;
 
-      // Empty space on the left at step 0 (one empty slot on desktop)
       const startGap = mobile ? Math.round(vw * 0.16) : stride;
-      // Furthest the track may travel so the last card ends at the right gutter
       const minX = Math.min(gutter, vw - gutter - trackW);
       const r = (trackW + gutter * 2 - vw) / stride;
       const maxStep = 1 + Math.ceil(Math.max(0, r));
@@ -109,8 +106,7 @@ export default function Products() {
       id="collection"
       className="border-t border-neutral-200 bg-white py-24 md:py-36"
     >
-      {/* Header */}
-      <header className="mx-auto max-w-[1200px] px-6 md:px-12">
+      <header className="mx-auto max-w-392 px-6 md:px-12">
         <FadeUp>
           <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-neutral-900">
             Collection
@@ -123,7 +119,6 @@ export default function Products() {
         />
       </header>
 
-      {/* Carousel viewport */}
       <div ref={viewportRef} className="mt-14 overflow-hidden md:mt-20">
         {m && (
           <motion.div
