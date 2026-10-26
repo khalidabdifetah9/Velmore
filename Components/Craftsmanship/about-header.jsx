@@ -31,7 +31,7 @@ export default function AboutHeader() {
           <div className="relative h-[52svh] shrink-0 md:h-auto md:w-[42%]">
             <div className="absolute inset-0">
               <RevealImage
-                src="/About/Velmore_Store.png"
+                src="/About/Velmore_Store.avif"
                 alt="The Velmora atelier and store in Paris"
                 direction="right"
                 parallax={5}

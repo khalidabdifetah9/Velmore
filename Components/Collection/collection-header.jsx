@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import FadeUp from "../Home/About/fade-up";
 import VerticalTitle from "../Craftsmanship/vertical-title";
 
@@ -10,12 +9,6 @@ export default function CollectionHeader() {
       <div className="flex">
         <div className="min-w-0 flex-1 px-6 pb-14 pt-[16vh] md:px-12 md:pb-20">
           <div className="mb-5 flex items-center gap-3">
-            <motion.span
-              initial={{ width: 0 }}
-              animate={{ width: 28 }}
-              transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="block h-px bg-[#a8af7e]"
-            />
             <FadeUp delay={0.3}>
               <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-neutral-900">
                 The Collection
@@ -35,8 +28,6 @@ export default function CollectionHeader() {
             className="mt-8 flex items-center gap-5 text-[11px] uppercase tracking-[0.22em] text-neutral-900"
           >
             <span>(10) Pieces</span>
-            <span className="h-px w-8 bg-neutral-400" />
-            <span>Paris · 2026</span>
           </FadeUp>
         </div>
 
