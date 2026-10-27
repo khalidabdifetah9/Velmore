@@ -6,12 +6,14 @@ import { motion } from "framer-motion";
 import Hero from "./Hero/hero";
 import Navbar from "../Shared/navbar";
 import { gridImages } from "@/lib/images";
+import { useLenis } from "@/Components/smooth-scroll"
 
 /* ── Timing (ms) ── */
 const START_DELAY = 350; // white screen before the first flash
 const STEP = 190; // time between flashes: lower = faster
 const HOLD = 450; // pause on the hero image before it zooms
 const ZOOM = 1.15; // zoom duration in seconds
+
 
 /* ── Images: the hero photo (index 4) is always the last one ── */
 const heroImg = gridImages[4];
@@ -74,7 +76,6 @@ export default function ScrollHero() {
     return () => clearTimeout(t);
   }, []);
 
-  // The flashing sequence
   useEffect(() => {
     if (!ready || done) return;
     let tick, hold;

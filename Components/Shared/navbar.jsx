@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
+import { useLenis, useScrollTo } from "@/Components/smooth-scroll";
 
 const links = [
   { label: "Craftsmanship", href: "/craftsmanship" },
@@ -16,6 +17,9 @@ export default function Navbar({ visible = true }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [overDark, setOverDark] = useState(false);
+  // inside Navbar(), with the other hooks:
+  const lenis = useLenis();
+  const scrollTo = useScrollTo();
 
   // Scroll state + which kind of section is behind the navbar
   useEffect(() => {
