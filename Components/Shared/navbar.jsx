@@ -136,12 +136,12 @@ export default function Navbar({ visible = true }) {
             <motion.span
               animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }}
               transition={{ duration: 0.5, ease: EASE }}
-              className="absolute h-[1.5px] w-6 bg-white"
+              className="absolute h-[1.5px] w-6 bg-[#a8af7e]"
             />
             <motion.span
               animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }}
               transition={{ duration: 0.5, ease: EASE }}
-              className="absolute h-[1.5px] w-6 bg-white"
+              className="absolute h-[1.5px] w-6 bg-[#a8af7e]"
             />
           </button>
         </nav>
@@ -157,7 +157,7 @@ export default function Navbar({ visible = true }) {
             animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
             exit={{ clipPath: "inset(0% 0% 100% 0%)" }}
             transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-40 flex flex-col justify-center bg-neutral-950 px-6 md:hidden"
+            className="fixed inset-0 z-40 flex max-h-80 bg-white flex-col justify-center px-6 md:hidden"
           >
             <ul className="border-t border-white/10">
               {links.map((link, i) => (
@@ -167,7 +167,6 @@ export default function Navbar({ visible = true }) {
                 >
                   <motion.a
                     href={link.href}
-                    onClick={(e) => go(e, link.href)}
                     initial={{ y: "110%" }}
                     animate={{ y: "0%" }}
                     exit={{ y: "110%" }}
@@ -176,12 +175,9 @@ export default function Navbar({ visible = true }) {
                       delay: 0.25 + i * 0.1,
                       ease: EASE,
                     }}
-                    className="flex items-baseline justify-between py-6 font-[family-name:var(--font-display)] text-[clamp(2.4rem,11vw,3.6rem)] leading-none tracking-[-0.02em] text-white"
+                    className="flex items-baseline justify-between py-6 text-[clamp(2.4rem,11vw,3.6rem)] leading-none tracking-[-0.02em] text-[#a8af7e]"
                   >
                     {link.label}
-                    <span className="text-[11px] tracking-[0.25em] text-[#a8af7e]">
-                      0{i + 1}
-                    </span>
                   </motion.a>
                 </li>
               ))}
