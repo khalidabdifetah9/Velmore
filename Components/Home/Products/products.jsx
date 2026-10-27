@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import FadeUp from "../About/fade-up";
 import WordReveal from "../feature/word-reveal";
 import ProductCard from "./product-card";
@@ -24,7 +24,8 @@ function useCarouselMetrics(ref, count) {
     if (!el) return;
 
     const calc = () => {
-      const vw = el.clientWidth;
+      // Fall back to the window width if the element reports 0 for any reason
+      const vw = el.clientWidth || window.innerWidth;
       const mobile = vw < 768;
       const gap = mobile ? 12 : 16;
       const gutter = mobile ? 20 : 48;
@@ -41,7 +42,7 @@ function useCarouselMetrics(ref, count) {
       const r = (trackW + gutter * 2 - vw) / stride;
       const maxStep = 1 + Math.ceil(Math.max(0, r));
 
-      setM({ cardW, gap, gutter, stride, startGap, minX, maxStep });
+      setM({ cardW, gap, gutter, stride, startGap, minX, maxStep, mobile });
     };
 
     calc();
@@ -98,6 +99,9 @@ export default function Products() {
   const m = useCarouselMetrics(viewportRef, products.length);
   const [step, setStep] = useState(0);
 
+  // One observer on the stable container instead of one per clipped card
+  const inView = useInView(viewportRef, { once: true, margin: "0px 0px -10% 0px" });
+
   const current = m ? Math.min(step, m.maxStep) : 0;
   const go = (n) => m && setStep(Math.max(0, Math.min(n, m.maxStep)));
 
@@ -134,14 +138,18 @@ export default function Products() {
           >
             {products.map((p, i) => (
               <div key={p.slug} className="shrink-0" style={{ width: m.cardW }}>
-                <ProductCard product={p} index={i} />
+                <ProductCard
+                  product={p}
+                  index={i}
+                  animated={!m.mobile}
+                  revealed={inView}
+                />
               </div>
             ))}
           </motion.div>
         )}
       </div>
 
-      {/* Arrows */}
       <div className="mt-10 flex items-center justify-center gap-4">
         <Arrow dir="prev" onClick={() => go(current - 1)} disabled={current === 0} />
         <Arrow
