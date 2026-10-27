@@ -10,7 +10,7 @@ export default function HeroCta({ pointer }) {
 
       <motion.div
         style={{ pointerEvents: pointer }}
-        className="absolute bottom-[7vh] left-6 max-w-[300px] md:bottom-[9vh] md:left-[4%] md:max-w-[26%] md:min-w-[240px]"
+        className="absolute bottom-[12vh] left-6 max-w-[300px] md:bottom-[9vh] md:left-[4%] md:max-w-[26%] md:min-w-[240px]"
       >
         <p className="mb-3 text-[11px] font-medium text-white">
           Six scents, made slowly

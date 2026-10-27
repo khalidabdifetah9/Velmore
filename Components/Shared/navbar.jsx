@@ -163,7 +163,7 @@ export default function Navbar({ visible = true }) {
               {links.map((link, i) => (
                 <li
                   key={link.href}
-                  className="overflow-hidden border-b border-white/10"
+                  className="overflow-hidden border-b border-[#a8af7e]"
                 >
                   <motion.a
                     href={link.href}
